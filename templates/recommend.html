@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ movie.title }} 的老電影推薦 | 時光影單{% endblock %}
+{% block content %}
+<section class="section compact">
+  <div class="section-heading">
+    <p class="eyebrow">Recommendation</p>
+    <h1>如果你喜歡《{{ movie.title }}》</h1>
+    <p>以下是根據類型、關鍵字、評分與年代加權分析出的已下檔老電影。</p>
+  </div>
+</section>
+
+<section class="section two-column">
+  <div>
+    <h2>推薦清單</h2>
+    <div class="recommend-list">
+      {% for rec in recommendations %}
+        <article class="recommend-item">
+          <a class="mini-poster" href="/movie/{{ rec.id }}">
+            {% if rec.poster_url %}
+              <img src="{{ rec.poster_url }}" alt="{{ rec.title }} poster">
+            {% else %}
+              <span>{{ rec.title[:1] }}</span>
+            {% endif %}
+          </a>
+          <div>
+            <div class="recommend-title">
+              <h3>{{ loop.index }}. {{ rec.title }}</h3>
+              <strong>{{ "%.1f"|format(rec.score) }}</strong>
+            </div>
+            <p>{{ rec.year }} · 評分 {{ "%.1f"|format(rec.rating) }}</p>
+            <p class="reason">{{ rec.reason }}</p>
+            <div class="tags small">
+              {% for genre in rec.genres %}
+                <span>{{ genre }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <aside class="analysis-panel">
+    <h2>推薦分析</h2>
+    <div class="chart-box">
+      <h3>同類型的年代分布</h3>
+      <canvas id="sameGenreYearChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>同年代的類型分布</h3>
+      <canvas id="sameYearGenreChart"></canvas>
+    </div>
+  </aside>
+</section>
+
+<script id="analysis-data" type="application/json">{{ analysis | tojson }}</script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

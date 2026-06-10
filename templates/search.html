@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}時光影單 | 搜尋{% endblock %}
+{% block content %}
+<section class="section compact">
+  <div class="section-heading">
+    <p class="eyebrow">Search</p>
+    <h1>電影搜尋</h1>
+  </div>
+  <form class="search-form wide" action="/search" method="get">
+    <input name="query" value="{{ query }}" placeholder="輸入電影名稱" aria-label="電影名稱">
+    <button type="submit">搜尋</button>
+  </form>
+</section>
+
+<section class="section">
+  {% if query %}
+    <div class="section-heading">
+      <p class="eyebrow">Results</p>
+      <h2>「{{ query }}」的搜尋結果</h2>
+    </div>
+    {% if results %}
+      <div class="movie-grid">
+        {% for movie in results %}
+          {% include "partials/movie_card.html" %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="empty">找不到符合的電影。</p>
+    {% endif %}
+  {% else %}
+    <p class="empty">輸入電影名稱後，會透過 API 或本地資料搜尋。</p>
+  {% endif %}
+</section>
+{% endblock %}

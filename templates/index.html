@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}時光影單 | 高評分電影{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">API + 爬蟲 + 資料分析</p>
+    <h1>從熱門新片，找到值得補看的下檔老電影。</h1>
+    <p class="hero-spacer" aria-hidden="true">&nbsp;</p>
+    <form class="search-form" action="/search" method="get">
+      <input name="query" placeholder="輸入電影名稱，例如 Dune、Batman、Inception" aria-label="電影名稱">
+      <button type="submit">搜尋電影</button>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">Now Showing</p>
+    <h2>台灣正在上映</h2>
+  </div>
+  <div class="showing-grid">
+    {% for item in now_showing %}
+      <a class="showing-card" href="/showing/{{ item.code }}" aria-label="查看 {{ item.title }} 電影介紹">
+        <div class="showing-poster">
+          {% if item.poster_url %}
+            <img src="{{ item.poster_url }}" alt="{{ item.title }} poster">
+          {% else %}
+            <div class="poster-placeholder">{{ item.title[:1] }}</div>
+          {% endif %}
+        </div>
+        <div class="showing-card-body">
+          <strong>{{ item.title }}</strong>
+          <span>{{ item.date }} 上映</span>
+          <span>{{ item.runtime }} 分 · {{ item.theaters }} 廳</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">Top Rated</p>
+    <h2>高評分電影</h2>
+    <p>點選任一電影卡片可查看詳細資料，再進一步產生下檔老電影推薦。</p>
+  </div>
+  <div class="movie-grid">
+    {% for movie in top_rated %}
+      {% include "partials/movie_card.html" %}
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

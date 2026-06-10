@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ movie.title }} | 時光影單{% endblock %}
+{% block content %}
+<section class="detail">
+  <div class="poster-frame">
+    {% if movie.poster_url %}
+      <img src="{{ movie.poster_url }}" alt="{{ movie.title }} poster">
+    {% else %}
+      <div class="poster-placeholder">{{ movie.title[:1] }}</div>
+    {% endif %}
+  </div>
+  <div class="detail-copy">
+    <p class="eyebrow">{{ movie.year }} · {{ movie.status }}</p>
+    <h1>{{ movie.title }}</h1>
+    <div class="meta-row">
+      <span>評分 {{ "%.1f"|format(movie.rating) }}</span>
+      <span>{{ movie.vote_count }} votes</span>
+      <span>人氣 {{ "%.1f"|format(movie.popularity) }}</span>
+    </div>
+    <div class="tags">
+      {% for genre in movie.genres %}
+        <span>{{ genre }}</span>
+      {% endfor %}
+    </div>
+    <p class="overview">{{ movie.overview }}</p>
+    <div class="actions">
+      <a class="primary-action" href="/recommend/{{ movie.id }}">推薦已下檔老電影</a>
+      <a class="secondary-action" href="/search">重新搜尋</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

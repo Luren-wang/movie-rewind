@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ movie.title }} | 正在上映{% endblock %}
+{% block content %}
+<section class="detail showing-detail">
+  <div class="poster-frame">
+    {% if movie.poster_url %}
+      <img src="{{ movie.poster_url }}" alt="{{ movie.title }} poster">
+    {% else %}
+      <div class="poster-placeholder">{{ movie.title[:1] }}</div>
+    {% endif %}
+  </div>
+  <div class="detail-copy">
+    <p class="eyebrow">Now Showing</p>
+    <h1>{{ movie.title }}</h1>
+    <div class="meta-row large">
+      {% if movie.date %}<span>{{ movie.date }} 上映</span>{% endif %}
+      {% if movie.runtime %}<span>{{ movie.runtime }} 分</span>{% endif %}
+      {% if movie.theaters %}<span>{{ movie.theaters }} 廳</span>{% endif %}
+    </div>
+    <p class="overview">{{ movie.overview or "目前沒有可用的電影介紹。" }}</p>
+    <div class="actions">
+      <a class="secondary-action" href="/">回首頁</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

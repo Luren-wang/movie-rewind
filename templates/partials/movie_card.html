@@ -1,0 +1,17 @@
+<a class="movie-card" href="/movie/{{ movie.id }}" aria-label="查看 {{ movie.title }} 詳細資料">
+  <div class="poster-link">
+    {% if movie.poster_url %}
+      <img src="{{ movie.poster_url }}" alt="{{ movie.title }} poster">
+    {% else %}
+      <div class="poster-placeholder">{{ movie.title[:1] }}</div>
+    {% endif %}
+  </div>
+  <div class="movie-card-body">
+    <p class="eyebrow">{{ movie.year or "未知年份" }}</p>
+    <h3>{{ movie.title }}</h3>
+    <div class="meta-row">
+      <span>評分 {{ "%.1f"|format(movie.rating) }}</span>
+      <span>{{ movie.status }}</span>
+    </div>
+  </div>
+</a>
